@@ -33,6 +33,15 @@ public sealed class CsvImporterTests
     }
 
     [Fact]
+    public void Parse_HeaderRow_CaseInsensitive_Skipped()
+    {
+        var rows = _importer.Parse(Csv("Date,Description,Amount,Category\n2026-09-01,Coffee,-4.50,Dining\n"));
+
+        Assert.Single(rows);
+        Assert.Equal("Coffee", rows[0].Description);
+    }
+
+    [Fact]
     public void Parse_QuotedFieldWithComma_KeepsTogether()
     {
         var rows = _importer.Parse(Csv("2026-09-03,\"Dinner at Joe's, downtown\",-62.40,Dining\n"));
